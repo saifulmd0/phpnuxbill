@@ -84,7 +84,7 @@ switch ($do) {
                             if (file_exists($dvc)) {
                                 require_once $dvc;
                                 $c = [
-                                    'fullname' => "Voucher",
+                                    'fullname' => "Voucher Y ". date("d-m-Y h:i:sa"),
                                     'email' => '',
                                     'username' => $voucher,
                                     'password' => $voucher,
@@ -129,7 +129,7 @@ switch ($do) {
                                         if (file_exists($dvc)) {
                                             require_once $dvc;
                                             $c = [
-                                                'fullname' => "Voucher",
+                                                'fullname' => "Voucher X ". date("d-m-Y h:i:sa"),
                                                 'email' => '',
                                                 'username' => $voucher,
                                                 'password' => $voucher,
@@ -174,14 +174,14 @@ switch ($do) {
                 $user = ORM::for_table('tbl_customers')->where('username', $username)->find_one();
                 if (!$user) {
                     $d = ORM::for_table('tbl_customers')->create();
-                    $d->username = alphanumeric($username, "+_.@-");
+                    $d->username = alphanumeric($voucher, "+_.@-");
                     $d->password = $voucher;
-                    $d->fullname = '';
+                    $d->fullname = 'Voucher ' . $username;
                     $d->address = '';
                     $d->email = '';
                     $d->phonenumber = (strlen($username) < 21) ? $username : '';
                     if ($d->save()) {
-                        $user = ORM::for_table('tbl_customers')->where('username', $username)->find_one($d->id());
+                        $user = ORM::for_table('tbl_customers')->where('username', $voucher)->find_one($d->id());
                         if (!$user) {
                             r2(U . 'login', 'e', Lang::T('Voucher activation failed'));
                         }
